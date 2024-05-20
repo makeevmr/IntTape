@@ -46,8 +46,9 @@ int main() {
                 } else if (file_ind > 0) {
                     msync((void *)buffer, curr_buffer_size, MS_SYNC);
                     curr_buffer_size = max_buffer_size;
-                    buffer = static_cast<char *>(
-                        mmap(NULL, curr_buffer_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0U));
+                    buffer =
+                        static_cast<char *>(mmap(NULL, curr_buffer_size, PROT_READ | PROT_WRITE,
+                                                 MAP_SHARED, fd, file_ind - page_size));
                     if (buffer == MAP_FAILED) {
                         handle_error("Error during mmap() call occurred");
                     }
@@ -64,8 +65,9 @@ int main() {
                     ++file_ind;
                     curr_buffer_size =
                         std::min((max_buffer_size / 2) + file_size - file_ind, max_buffer_size);
-                    buffer = static_cast<char *>(
-                        mmap(NULL, curr_buffer_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0U));
+                    buffer =
+                        static_cast<char *>(mmap(NULL, curr_buffer_size, PROT_READ | PROT_WRITE,
+                                                 MAP_SHARED, fd, file_ind - page_size));
                     if (buffer == MAP_FAILED) {
                         handle_error("Error during mmap() call occurred");
                     }

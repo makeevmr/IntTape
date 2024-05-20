@@ -1,0 +1,17 @@
+---
+# We'll use defaults from the LLVM style, but with 4 columns indentation.
+BasedOnStyle: LLVM
+IndentWidth: 4
+---
+Language: Cpp
+# Force pointers to the type for C++.
+# DerivePointerAlignment: false
+# PointerAlignment: Left
+
+# Use 120 columns for CPP
+ColumnLimit: 100
+AccessModifierOffset: -4
+AlwaysBreakTemplateDeclarations: true
+NamespaceIndentation: All
+---
+
