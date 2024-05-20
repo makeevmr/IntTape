@@ -14,7 +14,6 @@
 #include <chrono>
 #include <thread>
 
-// TODO add delays
 class Tape {
 public:
     Tape(const char *file_name, const TapeDelays &delays);
@@ -32,6 +31,10 @@ public:
     [[nodiscard]] unsigned int read() const noexcept;
 
     void write(unsigned int new_number) noexcept;
+
+    [[nodiscard]] std::size_t getTapeSize() const noexcept;
+
+    [[nodiscard]] static std::size_t getPageFileSize() noexcept;
 
 private:
     int fd;
