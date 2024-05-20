@@ -1,6 +1,7 @@
 #ifndef INT_TAPE_TAPE
 #define INT_TAPE_TAPE
 
+#include "../TapeDelays/TapeDelays.h"
 #include <algorithm>
 #include <iostream>
 
@@ -10,16 +11,19 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include <chrono>
+#include <thread>
+
 // TODO add delays
 class Tape {
 public:
-    Tape(const char *file_name);
+    Tape(const char *file_name, const TapeDelays &delays);
 
     ~Tape();
 
-    void moveLeft();
+    void shiftLeft();
 
-    void moveRight();
+    void shiftRight();
 
     void rewindLeft(unsigned int rewind_length);
 
@@ -37,6 +41,7 @@ private:
     std::size_t file_size;
     std::size_t curr_buffer_size;
     std::size_t max_buffer_size;
+    TapeDelays delays;
     static std::size_t page_size;
 
     static void handle_error(const char *msg);

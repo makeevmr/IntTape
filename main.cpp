@@ -1,9 +1,15 @@
+#include "src/DelayParse/DelayParse.h"
 #include "src/Encode/Encode.h"
 #include "src/Tape/Tape.h"
 
-int main() {
-    encode("input/input3.txt");
-    Tape int_tape("tmp/tape.txt");
+int main(int argc, char *argv[]) {
+    TapeDelays delays = delayParse(argv[argc - 1]);
+    const char *tape_file = "tmp/tape.txt";
+    // TODO add output_file and change input_file
+    const char *input_file = argv[argc - 2];
+    encode(input_file, tape_file);
+    Tape int_tape(tape_file, delays);
+
     // int_tape.moveRight();
     // unsigned int iterations = 16777261;
     // unsigned int curr_iter = 2;
@@ -22,10 +28,10 @@ int main() {
         std::cin >> operation;
         switch (operation) {
         case '-':
-            int_tape.moveLeft();
+            int_tape.shiftLeft();
             break;
         case '+':
-            int_tape.moveRight();
+            int_tape.shiftRight();
             break;
         case 'L':
             std::cin >> number;

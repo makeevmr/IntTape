@@ -1,0 +1,4 @@
+read: 4 mcs
+write: 8 mcs
+shift: 2 mcs
+rewind: 1 mcs

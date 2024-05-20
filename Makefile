@@ -6,7 +6,7 @@ TFLAGS=-lgtest -lgtest_main -lpthread
 
 # Files for Project
 BUILD_DIR=obj
-SOURCES=main.cpp src/Encode/Encode.cpp src/Tape/Tape.cpp
+SOURCES=main.cpp src/Encode/Encode.cpp src/Tape/Tape.cpp src/DelayParse/DelayParse.cpp
 OBJECTS=$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 TARGET=IntTape
 
