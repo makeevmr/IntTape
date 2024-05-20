@@ -35,7 +35,6 @@
 .DS_Store
 
 # Visual Studio Code
-.vscode
 .vs
 vs
 
@@ -49,4 +48,3 @@ vs
 thumbs.db
 
 build/*
-IntTape
