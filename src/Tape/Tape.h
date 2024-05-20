@@ -21,6 +21,10 @@ public:
 
     void moveRight();
 
+    void rewindLeft(unsigned int rewind_length);
+
+    void rewindRight(unsigned int rewind_length);
+
     [[nodiscard]] unsigned int read() const noexcept;
 
     void write(unsigned int new_number) noexcept;

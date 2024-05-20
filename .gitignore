@@ -51,3 +51,5 @@ thumbs.db
 build/*
 IntTape
 main
+tmp/
+input3.txt
