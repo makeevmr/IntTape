@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+// TODO add delays
 class Tape {
 public:
     Tape(const char *file_name);

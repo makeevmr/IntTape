@@ -70,10 +70,10 @@ void Tape::moveRight() {
 }
 
 void Tape::write(unsigned int new_number) noexcept {
-    buffer[buffer_ind] = static_cast<char>(new_number >> 24);
-    buffer[buffer_ind + 1] = static_cast<char>((new_number >> 16) & 0xFF);
-    buffer[buffer_ind + 2] = static_cast<char>((new_number >> 8) & 0xFF);
-    buffer[buffer_ind + 3] = static_cast<char>(new_number & 0xFF);
+    buffer[buffer_ind] = static_cast<unsigned char>(new_number >> 24);
+    buffer[buffer_ind + 1] = static_cast<unsigned char>((new_number >> 16) & 0xFF);
+    buffer[buffer_ind + 2] = static_cast<unsigned char>((new_number >> 8) & 0xFF);
+    buffer[buffer_ind + 3] = static_cast<unsigned char>(new_number & 0xFF);
 }
 
 // private

@@ -10,10 +10,10 @@ void encode(const char *file_name) {
         while (input_file.peek() != EOF) {
             input_file >> new_number;
             input_file.get();
-            output_file << static_cast<char>(new_number >> 24);
-            output_file << static_cast<char>((new_number >> 16) & 0xFF);
-            output_file << static_cast<char>((new_number >> 8) & 0xFF);
-            output_file << static_cast<char>(new_number & 0xFF);
+            output_file << static_cast<unsigned char>(new_number >> 24);
+            output_file << static_cast<unsigned char>((new_number >> 16) & 0xFF);
+            output_file << static_cast<unsigned char>((new_number >> 8) & 0xFF);
+            output_file << static_cast<unsigned char>(new_number & 0xFF);
         }
     }
     input_file.close();
