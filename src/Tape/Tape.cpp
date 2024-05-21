@@ -1,17 +1,26 @@
 #include "Tape.h"
 
 // public
-Tape::Tape(const char *file_name, const TapeDelays &delays)
+// If the new_file_size is 0 then create a tape of size corresponding to the input file, otherwise
+// clear the contents of the file and create tape of size corresponding new_file_size
+Tape::Tape(const char *file_name, const TapeDelays &delays, std::size_t new_file_size)
     : buffer_ind(0), file_ind(0), delays(delays) {
     fd = open(file_name, O_RDWR);
     if (fd == -1) {
         handle_error("Couldn't open file");
     }
-    struct stat sb;
-    if (fstat(fd, &sb) == -1) {
-        handle_error("Error during mmap() call occurred");
+    if (new_file_size == 0) {
+        struct stat sb;
+        if (fstat(fd, &sb) == -1) {
+            handle_error("Error during mmap() call occurred");
+        }
+        file_size = sb.st_size;
+    } else {
+        if (ftruncate(fd, 4 * new_file_size) == -1) {
+            handle_error("Error during ftruncate() call occurred");
+        }
+        file_size = 4 * new_file_size;
     }
-    file_size = sb.st_size;
     max_buffer_size = 2 * page_size;
     curr_buffer_size = std::min(file_size, max_buffer_size);
     buffer = static_cast<unsigned char *>(
@@ -42,11 +51,12 @@ void Tape::shiftLeft() {
         file_ind -= 4;
         buffer_ind = page_size - 4;
     }
-    std::this_thread::sleep_for(std::chrono::microseconds(delays.shift));
+    // std::this_thread::sleep_for(std::chrono::microseconds(delays.shift));
     // std::this_thread::sleep_for(std::chrono::nanoseconds(delays.shift));
 }
 
-void Tape::shiftRight() {
+bool Tape::shiftRight() {
+    bool is_shifted = true;
     if ((buffer_ind + 4) < curr_buffer_size) {
         buffer_ind += 4;
         file_ind += 4;
@@ -60,8 +70,11 @@ void Tape::shiftRight() {
             handle_error("Error during mmap() call occurred");
         }
         buffer_ind = page_size;
+    } else {
+        is_shifted = false;
     }
-    std::this_thread::sleep_for(std::chrono::microseconds(delays.shift));
+    // std::this_thread::sleep_for(std::chrono::microseconds(delays.shift));
+    return is_shifted;
 }
 
 void Tape::rewindLeft(unsigned int rewind_length) {
@@ -101,7 +114,7 @@ void Tape::rewindLeft(unsigned int rewind_length) {
         }
     }
     unsigned int total_rewind = (prev_file_ind - file_ind) / 4;
-    std::this_thread::sleep_for(std::chrono::microseconds(delays.rewind * total_rewind));
+    // std::this_thread::sleep_for(std::chrono::microseconds(delays.rewind * total_rewind));
 }
 
 void Tape::rewindRight(unsigned int rewind_length) {
@@ -141,7 +154,7 @@ void Tape::rewindRight(unsigned int rewind_length) {
         }
     }
     unsigned int total_rewind = (file_ind - prev_file_ind) / 4;
-    std::this_thread::sleep_for(std::chrono::microseconds(delays.rewind * total_rewind));
+    // std::this_thread::sleep_for(std::chrono::microseconds(delays.rewind * total_rewind));
 }
 
 [[nodiscard]] unsigned int Tape::read() const noexcept {
@@ -150,7 +163,7 @@ void Tape::rewindRight(unsigned int rewind_length) {
     curr_number |= (static_cast<unsigned int>(buffer[buffer_ind + 1]) << 16);
     curr_number |= (static_cast<unsigned int>(buffer[buffer_ind + 2]) << 8);
     curr_number |= (static_cast<unsigned int>(buffer[buffer_ind + 3]));
-    std::this_thread::sleep_for(std::chrono::microseconds(delays.read));
+    // std::this_thread::sleep_for(std::chrono::microseconds(delays.read));
     return curr_number;
 }
 
@@ -159,10 +172,12 @@ void Tape::write(unsigned int new_number) noexcept {
     buffer[buffer_ind + 1] = static_cast<unsigned char>((new_number >> 16) & 0xFF);
     buffer[buffer_ind + 2] = static_cast<unsigned char>((new_number >> 8) & 0xFF);
     buffer[buffer_ind + 3] = static_cast<unsigned char>(new_number & 0xFF);
-    std::this_thread::sleep_for(std::chrono::microseconds(delays.write));
+    // std::this_thread::sleep_for(std::chrono::microseconds(delays.write));
 }
 
-[[nodiscard]] std::size_t Tape::getTapeSize() const noexcept { return file_size / 4; }
+[[nodiscard]] std::size_t Tape::getSize() const noexcept { return file_size / 4; }
+
+[[nodiscard]] bool Tape::isEnd() const noexcept { return (file_ind + 4) == file_size; }
 
 [[nodiscard]] std::size_t Tape::getPageFileSize() noexcept { return page_size / 4; }
 

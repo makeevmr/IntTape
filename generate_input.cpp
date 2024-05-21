@@ -1,12 +1,14 @@
 #include <fstream>
+#include <random>
 
 int main() {
-    std::ofstream output_data("input/input3.txt", std::ios::binary);
-    u_int64_t max_int = 16777261;
-    u_int64_t curr_int = 1;
-    while (curr_int <= max_int) {
-        output_data << curr_int << '\n';
-        ++curr_int;
+    srand(time(NULL));
+    std::ofstream output_data("input/input5.txt", std::ios::binary);
+    u_int64_t max_iter = 110000;
+    u_int64_t curr_iter = 1;
+    while (curr_iter <= max_iter) {
+        output_data << rand() << '\n';
+        ++curr_iter;
     }
     return 0;
 }

@@ -14,15 +14,19 @@
 #include <chrono>
 #include <thread>
 
+// contains unsigned int numbers where each number is a sequence of 4 unsigned char
 class Tape {
 public:
-    Tape(const char *file_name, const TapeDelays &delays);
+    // If the new_file_size is 0 then create a tape of size corresponding to the input file,
+    // otherwise clear the contents of the file and create tape of size corresponding new_file_size
+    Tape(const char *file_name, const TapeDelays &delays, std::size_t new_file_size = 0);
 
     ~Tape();
 
     void shiftLeft();
 
-    void shiftRight();
+    // return true if the tape is successfully shifted
+    bool shiftRight();
 
     void rewindLeft(unsigned int rewind_length);
 
@@ -32,7 +36,9 @@ public:
 
     void write(unsigned int new_number) noexcept;
 
-    [[nodiscard]] std::size_t getTapeSize() const noexcept;
+    [[nodiscard]] std::size_t getSize() const noexcept;
+
+    [[nodiscard]] bool isEnd() const noexcept;
 
     [[nodiscard]] static std::size_t getPageFileSize() noexcept;
 

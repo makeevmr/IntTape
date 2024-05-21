@@ -24,14 +24,15 @@ void encode(const char *input_file_name, const char *output_file_name) {
 void decode(const char *input_file_name, const char *output_file_name) {
     std::ifstream input_file(input_file_name, std::ios::binary);
     std::ofstream output_file(output_file_name, std::ios::binary);
-    unsigned char new_symbol = 0;
+    char new_symbol = 0;
     unsigned int out_number = 0;
     short int iter = 0;
     if (input_file.is_open() && output_file.is_open()) {
         while (input_file.peek() != EOF) {
             ++iter;
-            input_file >> new_symbol;
-            out_number |= (static_cast<unsigned int>(new_symbol) << (32 - 8 * iter));
+            input_file.get(new_symbol);
+            out_number |= (static_cast<unsigned int>(static_cast<unsigned char>(new_symbol))
+                           << (32 - 8 * iter));
             if (iter == 4) {
                 iter = 0;
                 output_file << out_number << '\n';

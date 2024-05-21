@@ -2,16 +2,34 @@
 #include "src/DelayParse/DelayParse.h"
 #include "src/SortTape/SortTape.h"
 
-// ./IntTape input/input2.txt output/output2.txt config/delay.txt
+#define INPUT_TAPE "tmp/input_tape.txt"
+#define OUTPUT_TAPE "tmp/output_tape.txt"
+
 int main(int argc, char *argv[]) {
-    const char *tape_file = "tmp/tape.txt";
-    TapeDelays delays = delayParse(argv[argc - 1]);
-    const char *input_file = argv[argc - 3];
-    const char *output_file = argv[argc - 2];
-    encode(input_file, tape_file);
-    Tape int_tape(tape_file, delays);
-    SortTape::sort(int_tape);
-    decode(tape_file, output_file);
+    const char *input_tape_file = INPUT_TAPE;
+    const char *output_tape_file = OUTPUT_TAPE;
+    TapeDelays delays = delayParse("config/delay.txt");
+    const char *output_file = "output/output3.txt";
+    const char *input_file = "input/input3.txt";
+    // TapeDelays delays = delayParse(argv[argc - 1]);
+    // const char *output_file = argv[argc - 2];
+    // const char *input_file = argv[argc - 3];
+    // std::cout << "Parsed\n";
+    // encode(input_file, input_tape_file);
+    encode(input_file, INPUT_TAPE);
+    // std::cout << "Encoded\n";
+    // Tape int_tape(input_tape_file, delays);
+    // SortTape::sort(input_tape_file, output_tape_file, delays);
+    SortTape::sort(INPUT_TAPE, OUTPUT_TAPE, delays);
+    // std::cout << "Sorted\n";
+    decode(OUTPUT_TAPE, output_file);
+    // std::cout << "Decoded\n";
+    // TapeDelays delays = delayParse("config/delay.txt");
+    // const char *input_file = "input/input5.txt";
+    // const char *output_file = "output/output5.txt";
+    // std::cout << "Encode complete\n";
+    // std::cout << "Tape formed\n";
+    // std::cout << "sort\n";
 
     // int_tape.moveRight();
     // unsigned int iterations = 16777261;
