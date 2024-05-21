@@ -86,47 +86,37 @@ void SortTape::naturalMergeSort(Tape &output_tape, const TapeDelays &delays,
         bool is_tape1_end = false;
         bool is_tape2_end = false;
         while (!is_tape1_end && !is_tape2_end) {
-            unsigned int prev_number1 = tmp_tape1.read();
-            unsigned int prev_number2 = tmp_tape2.read();
-            unsigned int new_number1 = prev_number1;
-            unsigned int new_number2 = prev_number2;
-            if (prev_number1 <= prev_number2) {
-                output_tape.write(prev_number1);
-                is_tape1_end = !tmp_tape1.shiftRight();
-                new_number1 = tmp_tape1.read();
-            } else {
-                output_tape.write(prev_number2);
-                is_tape2_end = !tmp_tape2.shiftRight();
-                new_number2 = tmp_tape2.read();
-            }
-            output_tape.shiftRight();
+            unsigned int prev_number1 = 0;
+            unsigned int prev_number2 = 0;
+            unsigned int new_number1 = tmp_tape1.read();
+            unsigned int new_number2 = tmp_tape2.read();
             while (!is_tape1_end && !is_tape2_end && (prev_number1 <= new_number1) &&
                    (prev_number2 <= new_number2)) {
-                prev_number1 = new_number1;
-                prev_number2 = new_number2;
                 if (new_number1 <= new_number2) {
                     output_tape.write(new_number1);
                     is_tape1_end = !tmp_tape1.shiftRight();
+                    prev_number1 = new_number1;
                     new_number1 = tmp_tape1.read();
                 } else {
                     output_tape.write(new_number2);
                     is_tape2_end = !tmp_tape2.shiftRight();
+                    prev_number2 = new_number2;
                     new_number2 = tmp_tape2.read();
                 }
                 output_tape.shiftRight();
             }
             while (!is_tape1_end && (prev_number1 <= new_number1)) {
-                prev_number1 = new_number1;
                 output_tape.write(new_number1);
                 is_tape1_end = !tmp_tape1.shiftRight();
                 output_tape.shiftRight();
+                prev_number1 = new_number1;
                 new_number1 = tmp_tape1.read();
             }
             while (!is_tape2_end && (prev_number2 <= new_number2)) {
-                prev_number2 = new_number2;
                 output_tape.write(new_number2);
                 is_tape2_end = !tmp_tape2.shiftRight();
                 output_tape.shiftRight();
+                prev_number2 = new_number2;
                 new_number2 = tmp_tape2.read();
             }
         }
@@ -142,5 +132,6 @@ void SortTape::naturalMergeSort(Tape &output_tape, const TapeDelays &delays,
         }
         parts_to_merge = (parts_to_merge / 2) + (parts_to_merge % 2);
         buffer_size *= 2;
+        tail_size = output_tape_size % buffer_size;
     }
 }
