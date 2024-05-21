@@ -28,6 +28,7 @@ void SortTape::sort(const char *input_tape_file, const char *output_tape_file,
             output_tape.write(array[i]);
             output_tape.shiftRight();
         }
+        input_tape.shiftRight();
     }
     if (iterations > 1) {
         naturalMergeSort(output_tape, delays, iterations, max_buffer_size, tail_size);

@@ -2,7 +2,6 @@
 CC=g++
 OPT=-O2
 CFLAGS=-g -c -pedantic-errors -Wall -Wextra -std=c++20 $(OPT)
-# CFLAGS=-g
 TFLAGS=-lgtest -lgtest_main -lpthread
 
 # Files for Project
