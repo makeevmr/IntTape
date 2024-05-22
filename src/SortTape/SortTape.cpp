@@ -66,16 +66,23 @@ void SortTape::naturalMergeSort(Tape &output_tape, const TapeDelays &delays,
         tmp_tape1.shiftRight();
         bool tape1_write = true;
         unsigned int prev_number = first_number;
+        unsigned int tape1_written = 1;
+        unsigned int tape2_written = 0;
         for (std::size_t i = 1; i < output_tape_size; ++i) {
             output_tape.shiftRight();
             unsigned int new_number = output_tape.read();
-            if (prev_number > new_number) {
+            if ((prev_number > new_number) || (tape1_written == buffer_size) ||
+                (tape2_written == buffer_size)) {
+                tape1_written = 0;
+                tape2_written = 0;
                 tape1_write = !tape1_write;
             }
             if (tape1_write) {
+                ++tape1_written;
                 tmp_tape1.write(new_number);
                 tmp_tape1.shiftRight();
             } else {
+                ++tape2_written;
                 tmp_tape2.write(new_number);
                 tmp_tape2.shiftRight();
             }

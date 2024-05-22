@@ -10,20 +10,18 @@ SOURCES=main.cpp src/SortTape/SortTape.cpp src/Tape/Tape.cpp src/DelayParse/Dela
 OBJECTS=$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 TARGET=IntTape
 
-# #Files for TestMap
-# SOURCES_TEST=TestMap.cpp Compare/Compare.cpp
-# OBJECTS_TEST=$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES_TEST))
-# TARGET_TEST=TestMap
+#Files for Test
+SOURCES_TEST=TestTape.cpp src/SortTape/SortTape.cpp src/Tape/Tape.cpp src/DelayParse/DelayParse.cpp src/ConvertFile/ConvertFile.cpp
+OBJECTS_TEST=$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES_TEST))
+TARGET_TEST=TestTape
 
-# all: $(TARGET) $(TARGET_TEST)
-
-all: $(TARGET)
+all: $(TARGET) $(TARGET_TEST)
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@
 
-# $(TARGET_TEST): $(OBJECTS_TEST)
-# 	$(CC) $(OBJECTS_TEST) $(TFLAGS) -o $@
+$(TARGET_TEST): $(OBJECTS_TEST)
+	$(CC) $(OBJECTS_TEST) $(TFLAGS) -o $@
 
 $(BUILD_DIR)/%.o: %.cpp
 	$(CC) $(CFLAGS) $< -o $@
@@ -33,8 +31,4 @@ $(BUILD_DIR)/%.o: %.cpp
 clean:
 	@find obj -type f -delete
 	@rm $(TARGET)
-
-# clean:
-# 	@find obj -type f -delete
-# 	@rm $(TARGET)
-# 	@rm $(TARGET_TEST)
+	@rm $(TARGET_TEST)
