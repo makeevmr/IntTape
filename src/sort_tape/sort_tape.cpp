@@ -1,15 +1,22 @@
-#include "SortTape.h"
+#include "include/sort_tape.hpp"
+
+#include <vector>
+#include <algorithm>
+
+static constexpr const char* kTmpTape1 = "../tmp/tmp_tape1.txt";
+static constexpr const char* kTmpTape2 = "../tmp/tmp_tape2.txt";
 
 // public
-void SortTape::sort(const char *input_tape_file, const char *output_tape_file,
-                    const TapeDelays &delays) {
+void SortTape::sort(const char* input_tape_file, const char* output_tape_file,
+                    const TapeDelays& delays) {
     Tape input_tape(input_tape_file, delays);
     std::size_t input_tape_size = input_tape.getSize();
     std::size_t max_buffer_size = Tape::getPageFileSize();
     Tape output_tape(output_tape_file, delays, input_tape_size);
     std::size_t tail_size = input_tape_size % max_buffer_size;
-    std::size_t iterations = (tail_size == 0) ? (input_tape_size / max_buffer_size)
-                                              : (input_tape_size / max_buffer_size + 1);
+    std::size_t iterations = (tail_size == 0)
+                                 ? (input_tape_size / max_buffer_size)
+                                 : (input_tape_size / max_buffer_size + 1);
     std::vector<unsigned int> array(std::min(input_tape_size, max_buffer_size));
     std::size_t array_len = 0;
     for (std::size_t curr_iter = 0; curr_iter < iterations; ++curr_iter) {
@@ -31,13 +38,15 @@ void SortTape::sort(const char *input_tape_file, const char *output_tape_file,
         input_tape.shiftRight();
     }
     if (iterations > 1) {
-        naturalMergeSort(output_tape, delays, iterations, max_buffer_size, tail_size);
+        naturalMergeSort(output_tape, delays, iterations, max_buffer_size,
+                         tail_size);
     }
 }
 
 // private
-void SortTape::naturalMergeSort(Tape &output_tape, const TapeDelays &delays,
-                                std::size_t parts_to_merge, std::size_t buffer_size,
+void SortTape::naturalMergeSort(Tape& output_tape, const TapeDelays& delays,
+                                std::size_t parts_to_merge,
+                                std::size_t buffer_size,
                                 std::size_t tail_size) {
     const std::size_t output_tape_size = output_tape.getSize();
     while (parts_to_merge > 1) {
@@ -59,8 +68,8 @@ void SortTape::naturalMergeSort(Tape &output_tape, const TapeDelays &delays,
             }
         }
         output_tape.rewindLeft(output_tape_size - 1);
-        Tape tmp_tape1(TMP_TAPE1, delays, tape1_size);
-        Tape tmp_tape2(TMP_TAPE2, delays, tape2_size);
+        Tape tmp_tape1(kTmpTape1, delays, tape1_size);
+        Tape tmp_tape2(kTmpTape2, delays, tape2_size);
         unsigned int first_number = output_tape.read();
         tmp_tape1.write(first_number);
         tmp_tape1.shiftRight();
@@ -98,7 +107,8 @@ void SortTape::naturalMergeSort(Tape &output_tape, const TapeDelays &delays,
             unsigned int prev_number2 = 0;
             unsigned int new_number1 = tmp_tape1.read();
             unsigned int new_number2 = tmp_tape2.read();
-            while (!is_tape1_end && !is_tape2_end && (prev_number1 <= new_number1) &&
+            while (!is_tape1_end && !is_tape2_end &&
+                   (prev_number1 <= new_number1) &&
                    (prev_number2 <= new_number2)) {
                 if (new_number1 <= new_number2) {
                     output_tape.write(new_number1);

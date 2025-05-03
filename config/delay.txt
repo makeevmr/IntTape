@@ -1,4 +1,4 @@
-read: 1 mcs
-write: 1 mcs
-shift: 1 mcs
-rewind: 1 mcs
+read: 0 mcs
+write: 0 mcs
+shift: 0 mcs
+rewind: 0 mcs
