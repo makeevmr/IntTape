@@ -20,7 +20,8 @@ int main(int argc, char* argv[]) {
     std::size_t max_ram_used = std::stoull(argv[argc - 2]);
     try {
         encode(input_file_name, kTmpInputTape);
-        sortTape(kTmpInputTape, kTmpOutputTape, max_ram_used, tape_delays);
+        SortTape::sortTape(kTmpInputTape, kTmpOutputTape, max_ram_used,
+                           tape_delays);
         decode(kTmpOutputTape, output_file_name);
     } catch (const std::exception& err) {
         std::cerr << err.what() << '\n';

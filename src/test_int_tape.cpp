@@ -14,7 +14,7 @@ void sort(const char* input_file_name, const char* output_file_name,
           const std::size_t max_ram_used) {
     TapeDelays delays = delayParse(kDelay);
     encode(input_file_name, kTmpInputTape);
-    sortTape(kTmpInputTape, kTmpOutputTape, max_ram_used, delays);
+    SortTape::sortTape(kTmpInputTape, kTmpOutputTape, max_ram_used, delays);
     decode(kTmpOutputTape, output_file_name);
 }
 
