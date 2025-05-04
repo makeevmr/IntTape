@@ -9,17 +9,18 @@ static constexpr const char* kTmpInputTape = "../tmp/input_tape.txt";
 static constexpr const char* kTmpOutputTape = "../tmp/output_tape.txt";
 
 int main(int argc, char* argv[]) {
-    if (argc != 4) {
-        std::cerr
-            << "USAGE: <EXECUTABLE> <INPUT_FILE> <OUTPUT_FILE> <CONFIG_FILE>\n";
+    if (argc != 5) {
+        std::cerr << "USAGE: <EXECUTABLE> <INPUT_FILE> <OUTPUT_FILE> "
+                     "<MAX_RAM_USED> <CONFIG_FILE>\n";
         return EXIT_FAILURE;
     }
-    TapeDelays delays = delayParse(argv[argc - 1]);
-    const char* output_file_name = argv[argc - 2];
-    const char* input_file_name = argv[argc - 3];
+    TapeDelays tape_delays = delayParse(argv[argc - 1]);
+    const char* output_file_name = argv[argc - 3];
+    const char* input_file_name = argv[argc - 4];
+    std::size_t max_ram_used = std::stoull(argv[argc - 2]);
     try {
         encode(input_file_name, kTmpInputTape);
-        SortTape::sort(kTmpInputTape, kTmpOutputTape, delays);
+        sortTape(kTmpInputTape, kTmpOutputTape, max_ram_used, tape_delays);
         decode(kTmpOutputTape, output_file_name);
     } catch (const std::exception& err) {
         std::cerr << err.what() << '\n';

@@ -3,16 +3,7 @@
 
 #include "../../tape/include/tape.hpp"
 
-class SortTape {
-public:
-    static void sort(const char* input_tape_file, const char* output_tape_file,
-                     const TapeDelays& delays);
-
-private:
-    static void naturalMergeSort(Tape& output_tape, const TapeDelays& delays,
-                                 std::size_t parts_to_merge,
-                                 std::size_t buffer_size,
-                                 std::size_t tail_size);
-};
+void sortTape(const char* input_tape_file, const char* output_tape_file,
+              const std::size_t max_ram_used, const TapeDelays& tape_delays);
 
 #endif  // INT_TAPE_SRC_SORT_TAPE

@@ -6,4 +6,4 @@ vs
 .cache/
 build/
 tmp/
-output/
+output/output*

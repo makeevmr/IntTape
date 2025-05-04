@@ -9,7 +9,7 @@
 #define assertm(exp, msg) assert((void(msg), exp))
 
 [[nodiscard]] TapeDelays delayParse(const char* file_name) {
-    TapeDelays delays;
+    TapeDelays tape_delays;
     std::ifstream config_file(file_name, std::ios::binary);
     std::string line;
     assertm(config_file.is_open(), "Couldn't open config file");
@@ -19,15 +19,13 @@
                                         std::istream_iterator<std::string>{}};
         uint32_t delay_number = static_cast<uint32_t>(std::stoul(tokens[1]));
         if (tokens[0] == "read:") {
-            delays.read_ = delay_number;
+            tape_delays.read_ = delay_number;
         } else if (tokens[0] == "write:") {
-            delays.write_ = delay_number;
+            tape_delays.write_ = delay_number;
         } else if (tokens[0] == "shift:") {
-            delays.shift_ = delay_number;
-        } else if (tokens[0] == "rewind:") {
-            delays.rewind_ = delay_number;
+            tape_delays.shift_ = delay_number;
         }
     }
     config_file.close();
-    return delays;
+    return tape_delays;
 }

@@ -21,10 +21,12 @@ void encode(const char* input_file_name, const char* output_file_name) {
     while (input_file.peek() != EOF) {
         input_file >> in_number;
         input_file.get();
-        output_file << static_cast<uint8_t>(in_number >> 24);
-        output_file << static_cast<uint8_t>((in_number >> 16) & 0xFF);
-        output_file << static_cast<uint8_t>((in_number >> 8) & 0xFF);
-        output_file << static_cast<uint8_t>(in_number & 0xFF);
+        int bit_shift = 32;
+        while (bit_shift > 0) {
+            bit_shift -= 8;
+            output_file << static_cast<uint8_t>((in_number >> bit_shift) &
+                                                0xFF);
+        }
     }
     input_file.close();
     output_file.close();

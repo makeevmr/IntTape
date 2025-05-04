@@ -4,50 +4,41 @@
 #include "../../tape_delays/include/tape_delays.hpp"
 
 #include <cstddef>
+#include <optional>
 
-// contains unsigned int numbers where each number is a sequence of 4 unsigned
-// char
+// contains uint32_t numbers where each number is a sequence of 4 uint8_t
+// symbols
 class Tape {
 public:
-    // If the new_file_size is 0 then create a tape of size corresponding to the
-    // input file, otherwise clear the contents of the file and create tape of
-    // size corresponding new_file_size
-    Tape(const char* file_name, const TapeDelays& delays,
-         std::size_t new_file_size = 0);
+    // Creates a tape associated with file_name file.
+    // Changes file size to contain new_file_size elements if new_file_size was
+    // provided
+    Tape(const char* file_name, const TapeDelays& tape_delays,
+         const std::optional<std::size_t> new_file_size = std::nullopt);
 
     ~Tape();
 
     void shiftLeft();
 
-    // return true if the tape is successfully shifted
-    bool shiftRight();
+    void shiftRight();
 
-    void rewindLeft(unsigned int rewind_length);
+    void rewindLeft(std::size_t rewind_length);
 
-    void rewindRight(unsigned int rewind_length);
+    void rewindRight(std::size_t rewind_length);
 
-    [[nodiscard]] unsigned int read() const noexcept;
+    [[nodiscard]] uint32_t read();
 
-    void write(unsigned int new_number) noexcept;
+    void write(const uint32_t new_num);
 
     [[nodiscard]] std::size_t getSize() const noexcept;
 
-    [[nodiscard]] bool isEnd() const noexcept;
-
-    [[nodiscard]] static std::size_t getPageFileSize() noexcept;
-
 private:
-    int fd_;
-    unsigned char* buffer_;
-    std::size_t buffer_ind_;
-    std::size_t file_ind_;
-    std::size_t file_size_;
-    std::size_t curr_buffer_size_;
-    std::size_t max_buffer_size_;
-    TapeDelays delays_;
-    static std::size_t page_size;
+    const int fd_;
+    std::size_t tape_ind_;
+    std::size_t tape_size_;
+    const TapeDelays tape_delays_;
 
-    static void handleError(const char* msg);
+    static constexpr int kShiftSize = 4;
 };
 
 #endif  // INT_TAPE_SRC_TAPE

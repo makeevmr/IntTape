@@ -14,8 +14,8 @@ to create necessary folders and files.
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . --target int_tape
-./int_tape ../input/input_file ../output/output_file ../config/delay.txt
-./int_tape ../input/input1.txt ../output/output1.txt ../config/delay.txt
+USAGE: ./int_pape <INPUT_FILE> <OUTPUT_FILE> <MAX_RAM_USED> <CONFIG_FILE>
+EXAMPLE: ./int_tape ../input/input1.txt ../output/output1.txt 100 ../config/delay.txt
 ```
 
 ## Run tests
