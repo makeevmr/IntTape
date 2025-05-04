@@ -26,7 +26,7 @@ public:
 
     void rewindRight(std::size_t rewind_length);
 
-    [[nodiscard]] uint32_t read();
+    [[nodiscard]] uint32_t read() const;
 
     void write(const uint32_t new_num);
 

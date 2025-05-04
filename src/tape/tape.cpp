@@ -85,7 +85,7 @@ void Tape::rewindRight(std::size_t rewind_length) {
     }
 }
 
-[[nodiscard]] uint32_t Tape::read() {
+[[nodiscard]] uint32_t Tape::read() const {
     uint8_t num_buffer[kShiftSize];
     if (::read(fd_, num_buffer, kShiftSize) == -1) {
         throw std::runtime_error(
