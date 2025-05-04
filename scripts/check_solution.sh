@@ -12,7 +12,7 @@ for ((i=1; i<=$1; i++));
 do
     echo "Test case: $i"
     ./generator 5000 0 4294967295 tmp_input.txt
-    ./int_tape tmp_input.txt tmp_output.txt 1024 ../config/delay.txt
+    ./int_tape tmp_input.txt tmp_output.txt 6000 ../config/delay.txt
     sort -g tmp_input.txt > correct_output.txt
     if ! cmp -s correct_output.txt tmp_output.txt; then
         echo "Files are different. Breaking loop."
