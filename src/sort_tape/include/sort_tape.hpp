@@ -1,7 +1,7 @@
 #ifndef INT_TAPE_SRC_SORT_TAPE
 #define INT_TAPE_SRC_SORT_TAPE
 
-#include "../../tape/include/tape.hpp"
+#include "tape/include/tape.hpp"
 
 class SortTape {
 public:
