@@ -1,12 +1,12 @@
-#include "include/tape.hpp"
-
-#include <chrono>
-#include <stdexcept>
-#include <thread>
+#include "tape.hpp"
 
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+#include <chrono>
+#include <stdexcept>
+#include <thread>
 
 // Creates a tape associated with file_name file.
 // Changes file size to contain new_file_size elements if new_file_size was

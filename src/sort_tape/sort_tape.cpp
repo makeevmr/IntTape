@@ -1,4 +1,4 @@
-#include "include/sort_tape.hpp"
+#include "sort_tape.hpp"
 
 #include <algorithm>
 

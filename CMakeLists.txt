@@ -14,45 +14,36 @@ set(CMAKE_CXX_FLAGS_DEBUG "")
 
 include_directories(${SOURCE_DIR})
 
-list(APPEND INT_TAPE_TARGETS
-    tape
-    delay_parse
-    convert_file
-    sort_tape
-    main
-)
+add_library(
+  ${PROJECT_NAME}_tape_objs OBJECT
+  src/convert_file/convert_file.cpp
+  src/convert_file/convert_file.hpp
+  src/delay_parse/delay_parse.cpp
+  src/delay_parse/delay_parse.hpp
+  src/sort_tape/sort_tape.cpp
+  src/sort_tape/sort_tape.hpp
+  src/tape/tape.cpp
+  src/tape/tape.hpp
+  src/tape_delays/tape_delays.hpp)
 
-list(APPEND GENERATOR_TARGETS
-    generate_data
-)
+add_library(${PROJECT_NAME}_generate_objs OBJECT src/generate_data.cpp)
 
-list(APPEND TAPE_TESTS_TARGETS
-    tape
-    delay_parse
-    convert_file
-    sort_tape
-    test_int_tape
-)
-
-add_subdirectory(src)
+add_subdirectory(${SOURCE_DIR})
 
 # int_tape
-add_executable(int_tape)
-target_link_libraries(int_tape PRIVATE ${INT_TAPE_TARGETS})
+add_executable(${PROJECT_NAME} src/main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_tape_objs)
 
 # generator
 add_executable(generator)
-target_link_libraries(generator PRIVATE ${GENERATOR_TARGETS})
+target_link_libraries(generator PRIVATE ${PROJECT_NAME}_generate_objs)
 
 # tape_tests
 enable_testing()
 
 find_package(GTest REQUIRED)
 
-add_executable(tape_tests)
-target_link_libraries(tape_tests PRIVATE
-    GTest::GTest
-    ${TAPE_TESTS_TARGETS}
-)
+add_executable(tape_tests src/test_int_tape.cpp)
+target_link_libraries(tape_tests PRIVATE GTest::GTest ${PROJECT_NAME}_tape_objs)
 
 add_test(tape_gtests tape_tests)

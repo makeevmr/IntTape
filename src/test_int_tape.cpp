@@ -1,6 +1,6 @@
-#include "convert_file/include/convert_file.hpp"
-#include "delay_parse/include/delay_parse.hpp"
-#include "sort_tape/include/sort_tape.hpp"
+#include "convert_file/convert_file.hpp"
+#include "delay_parse/delay_parse.hpp"
+#include "sort_tape/sort_tape.hpp"
 
 #include <fstream>
 
