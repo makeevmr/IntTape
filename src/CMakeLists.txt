@@ -36,9 +36,3 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug)
   target_compile_options(${PROJECT_NAME}_generate_objs
                          PUBLIC ${GCC_DEBUG_BUILD_TYPE_COMPILE_FLAGS})
 endif()
-
-target_include_directories(${PROJECT_NAME}_tape_objs
-                           INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-
-target_include_directories(${PROJECT_NAME}_generate_objs
-                           INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
