@@ -1,16 +1,17 @@
 BasedOnStyle: Google
-IndentWidth: 4
+IndentWidth: 2
 
 Language: Cpp
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLambdasOnASingleLine: Empty
+IncludeBlocks: Preserve
 SortIncludes: false
 
 ColumnLimit: 80
-AccessModifierOffset: -4
+AccessModifierOffset: -2
 AlwaysBreakTemplateDeclarations: true
-NamespaceIndentation: All
+NamespaceIndentation: None
 
 DerivePointerAlignment: false
 PointerAlignment: Left

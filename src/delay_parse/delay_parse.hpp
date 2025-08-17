@@ -1,8 +1,12 @@
-#ifndef INT_TAPE_SRC_DELAY_PARSE
-#define INT_TAPE_SRC_DELAY_PARSE
+#ifndef INT_TAPE_SRC_DELAY_PARSE_DELAY_PARSE_HPP_
+#define INT_TAPE_SRC_DELAY_PARSE_DELAY_PARSE_HPP_
 
 #include "tape_delays/tape_delays.hpp"
 
+namespace int_tape {
+
 TapeDelays delayParse(const char* file_name);
 
-#endif  // INT_TAPE_SRC_DELAY_PARSE
+}  // namespace int_tape
+
+#endif  // INT_TAPE_SRC_DELAY_PARSE_DELAY_PARSE_HPP_
